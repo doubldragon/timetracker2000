@@ -1,0 +1,5 @@
+html, body {
+	background-image: url('bgimage.jpg');
+	background-position: right top;
+	background-size: cover;
+}
