@@ -3,3 +3,7 @@ html, body {
 	background-position: right top;
 	background-size: cover;
 }
+
+.container {
+	margin: 0 auto;
+}
