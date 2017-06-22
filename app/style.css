@@ -5,10 +5,31 @@
 }*/
 
 .container {
-	width: 450px;
+	/*width: 450px;*/
 	margin: 0 auto;
 }
 
+.form-inline {
+	margin-bottom: 20px;
+}
 .row {
 	width: 200px;
+}
+th  {
+	font-size: 24px;
+	text-align: center;
+}
+
+td {
+	font-size: 18px;
+}
+
+
+#removeTask, #editTask, #completeTask {
+	padding: auto;
+	font-size: 30px;
+}
+
+td :last-child {
+	background-color: none;
 }
