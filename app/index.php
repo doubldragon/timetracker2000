@@ -43,8 +43,13 @@
   	$result = pg_query($stmt);
   }
 
-  function getTasks($db) {
+  function getActiveTasks($db) {
     $request = pg_query(getDb(), "SELECT * FROM time WHERE date_out is null ORDER BY date_in DESC, time_in DESC");
+    return pg_fetch_all($request);
+  }
+
+  function getCompletedTasks($db) {
+    $request = pg_query(getDb(), "SELECT * FROM time WHERE date_out is not null ORDER BY date_out DESC, time_out DESC");
     return pg_fetch_all($request);
   }
 
@@ -70,16 +75,18 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
 </form>
 </div>
 <table class='table table-responsive table-striped align-middle'>
+<thead>
 <tr>
 	<th>Date</th>
 	<th>Project Task</th>
 	<th>Start</th>
 	<th>Stop</th>
-	<th>Functions</th>
+	<th class='buttons'></th>
 </tr>
-<?php foreach (getTasks(getDb()) as $tasklist) { ?>
+</thead>
 
 <tbody>
+<?php foreach (getActiveTasks(getDb()) as $tasklist) { ?>
 <tr>
 	<td>
 		<?=$tasklist['date_in'];?>
@@ -93,7 +100,7 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
 	<td>
 		<?=$tasklist['time_out'];?>
 	</td>
-	<td>
+	<td class='buttons'>
 	<div class="btn-group" role="group">	
     <form method="get" action="">
       <input name="completeTask" value="<?=$tasklist['id'];?>" type="hidden">
@@ -118,10 +125,48 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
 
 	</td>
 </tr>	
-</tbody>
   <?php 
   }
 ?>
+
+<?php foreach (getCompletedTasks(getDb()) as $tasklist) { ?>
+<tr>
+	<td>
+		<?=$tasklist['date_in'];?>
+	</td>
+	<td>
+		<?=$tasklist['task'];?>
+	</td>
+	<td>
+		<?=$tasklist['time_in'];?>
+	</td>
+	<td>
+		<?=$tasklist['time_out'];?>
+	</td>
+	<td class='buttons'>
+	<div class="btn-group" role="group">	
+    <form method="get" action="">
+      <input name="editTask" value="<?=$tasklist['id'];?>" type="hidden">
+      <button class='btn btn-warning' type="submit button" id='editTask' class="close" aria-label="Complete">
+        <span aria-hidden="true">&#x270E;</span>
+      </button>
+    </form>
+    <form method="get" action="">      
+      <input name="removeTask" value="<?=$tasklist['id'];?>" type="hidden">
+      <button class = 'btn btn-danger' type="submit " id='removeTask' class="close" aria-label="Remove">
+        <span aria-hidden="true" >&times;</span>
+      </button>
+    </form>
+    
+ 	</div>
+
+	</td>
+</tr>	
+  <?php 
+  }
+?>
+</tbody>
+
 
 
 </table>
