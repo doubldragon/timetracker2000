@@ -3,10 +3,10 @@
 <head>
 	<title>Task Tracker 2000</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="style.css" type="text/css">
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
 <?php
@@ -87,17 +87,17 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
 
 <tbody>
 <?php foreach (getActiveTasks(getDb()) as $tasklist) { ?>
-<tr>
-	<td>
+<tr >
+	<td class='align-middle'>
 		<?=$tasklist['date_in'];?>
 	</td>
-	<td>
+	<td class='align-middle'>
 		<?=$tasklist['task'];?>
 	</td>
-	<td>
+	<td class='align-middle'>
 		<?=$tasklist['time_in'];?>
 	</td>
-	<td>
+	<td class='align-middle'>
 		<?=$tasklist['time_out'];?>
 	</td>
 	<td class='buttons'>
@@ -110,9 +110,62 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
     </form>
     <form method="get" action="">
       <input name="editTask" value="<?=$tasklist['id'];?>" type="hidden">
-      <button class='btn btn-warning' type="submit button" id='editTask' class="close" aria-label="Complete">
+      <button class='btn btn-warning' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['id'];?>">
         <span aria-hidden="true">&#x270E;</span>
       </button>
+    <!-- Modal -->
+<div class="modal fade" id="modal<?=$tasklist['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Time</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group editWindow">
+    	<div class="input-group-addon">Task</div>	
+        <input type='text' value='<?=$tasklist['task'];?>' />
+        </div>
+        <div class="input-group editWindow">
+    	<div class="input-group-addon">Start Date</div>
+        <input type="date" value='<?=$tasklist['date_in'];?>'>
+        </div>
+        <div class="input-group editWindow">
+    	<div class="input-group-addon">Start Time</div>	
+        <input type="time" value="<?=$tasklist['time_in'];?>" />
+        </div>
+        <div class="input-group editWindow">
+    <div class="input-group-addon">End Date</div>
+        <input type="date">
+        </div>
+        <div class="input-group editWindow">
+    <div class="input-group-addon">End Time</div>
+        <input type="time" name="usr_time" value="19:47" />
+        </div>
+        <div class="input-group editWindow">
+    	<div class="input-group-addon">Comment:</div>	
+        <textarea rows='4' style='width: 100%;' placeholder="Fam, what are you doin?"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
     </form>
     <form method="get" action="">      
       <input name="removeTask" value="<?=$tasklist['id'];?>" type="hidden">
@@ -131,16 +184,16 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
 
 <?php foreach (getCompletedTasks(getDb()) as $tasklist) { ?>
 <tr>
-	<td>
+	<td class='align-middle'> 
 		<?=$tasklist['date_in'];?>
 	</td>
-	<td>
+	<td class='align-middle'>
 		<?=$tasklist['task'];?>
 	</td>
-	<td>
+	<td class='align-middle'>
 		<?=$tasklist['time_in'];?>
-	</td>
-	<td>
+	</td >
+	<td class='align-middle'>
 		<?=$tasklist['time_out'];?>
 	</td>
 	<td class='buttons'>
@@ -171,24 +224,57 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
 
 </table>
 
-<!-- <div class="row mx-auto" style="padding: 10px 0;">
-    
-        <div class="col taskItem">
-      <div class="align-middle">
-        <=$tasklist['task'];?>
-        
-      </div> 	
+</div>
+
+
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button> -->
+<button class='btn btn-warning' type="button" data-toggle="modal" data-target="#myModal">
+        <span aria-hidden="true">&#x270E;</span>
+      </button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Time</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group editWindow">
+    	<div class="input-group-addon">Task</div>	
+        <input type='text' />
+        </div>
+        <div class="input-group editWindow">
+    	<div class="input-group-addon">Start Date</div>
+        <input type="date" >
+        </div>
+        <div class="input-group editWindow">
+    	<div class="input-group-addon">Start Time</div>	
+        <input type="time" value="14:00" />
+        </div>
+        <div class="input-group editWindow">
+    <div class="input-group-addon">End Date</div>
+        <input type="date">
+        </div>
+        <div class="input-group editWindow">
+    <div class="input-group-addon">End ime</div>
+        <input type="time" name="usr_time" value="19:47" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
-    
-    
-
-</div> -->
-
-
-
-
-
-
+  </div>
 </div>
 </body>
 </html>

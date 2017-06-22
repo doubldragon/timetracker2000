@@ -27,7 +27,7 @@ td {
 
 #removeTask, #editTask, #completeTask {
 	padding: auto;
-	font-size: 30px;
+	font-size: 20px;
 }
 
 table.table-striped tr td.buttons {
@@ -41,4 +41,8 @@ table.table-striped tr th.buttons {
 	width: 100px;
 	border-top: 0;
 	border-bottom: 0;
+}
+
+.editWindow {
+	margin-top: 5px;
 }
