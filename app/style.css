@@ -1,9 +1,14 @@
-html, body {
+/*html, body {
 	background-image: url('bgimage.jpg');
 	background-position: right top;
 	background-size: cover;
-}
+}*/
 
 .container {
+	width: 450px;
 	margin: 0 auto;
+}
+
+.row {
+	width: 200px;
 }

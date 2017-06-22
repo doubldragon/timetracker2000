@@ -33,7 +33,7 @@
   }
 
   function getTasks($db) {
-    $request = pg_query(getDb(), "SELECT * FROM time");
+    $request = pg_query(getDb(), "SELECT * FROM time ORDER BY date_in DESC, time_in DESC");
     return pg_fetch_all($request);
   }
 
@@ -48,7 +48,7 @@
 <div class ='container'>
 <h1>Time Tracker 2000</h1>
 <div>
-<form class="form-inline" method="get" action="">
+<form class="form-inline align-middle" method="get" action="">
 
   <label class="sr-only" for="task">Task</label>
   <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="task" name="task" placeholder="What are you working on?">
@@ -65,7 +65,7 @@
 ?>
 <div class="row mx-auto" style="padding: 10px 0;">
     
-        <div class="col">
+        <div class="col taskItem">
       <div class="align-middle">
         <?=$tasklist['task'];?>
         
