@@ -61,20 +61,50 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
 ?>
 
 
-<div class ='container'>
+<div class='container col-md-8'>
+
 <h1>Time Tracker 2000</h1>
-<div>
-<form class="form-inline align-middle" method="get" action="">
+
+<div class='mx-auto center-block text-center'>
+
+<!-- Add a task to the list -->
+
+<form class="form-inline mx-auto" method="get" action="">
 
   <label class="sr-only" for="task">Task</label>
-  <div class="input-group">
-    <div class="input-group-addon">Task</div>
-  <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="task" name="task" placeholder="What are you working on?">
+  <div class="input-group input-group-lg mx-auto">
+    <!-- <div class="input-group-addon">Task</div> -->
+  <input type="text" class="form-control mb-2 mb-sm-0" id="task" name="task" placeholder="What are you working on?">
+	 <span class='input-group-btn'> 
+	 <button type="submit" class="btn btn-primary">Punch the Clock</button>
+	 </span>
 	</div>
-  <button type="submit" class="btn btn-primary">Punch the Clock</button>
+  <!-- <button type="submit" class="btn btn-primary">Punch the Clock</button> -->
+</form>
+
+
+<!-- Add new tasks to the dropdown -->
+
+<form class="form-inline mx-auto" method="get" action="">
+
+  <label class="sr-only" for="task">Add New Task</label>
+  <div class="input-group mx-auto">
+    
+  <input type="text" class="form-control mb-2  mb-sm-0" id="addNewTask" name="addNewTask" placeholder="Add a new task">
+	<span class="input-group-btn">
+        <button class="btn btn-secondary" type="submit">Go!</button>
+      </span>
+	</div>
+	
+  
 </form>
 </div>
-<table class='table table-responsive table-striped align-middle'>
+
+
+<!-- Active Tasks Being Tracked -->
+
+
+<table class='table table-responsive table-striped mx-auto col-md-4'>
 <thead>
 <tr>
 	<th>Date</th>
@@ -98,16 +128,16 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
 		<?=$tasklist['time_in'];?>
 	</td>
 	<td class='align-middle'>
-		<?=$tasklist['time_out'];?>
-	</td>
-	<td class='buttons'>
-	<div class="btn-group" role="group">	
-    <form method="get" action="">
+		<form method="get" action="">
       <input name="completeTask" value="<?=$tasklist['id'];?>" type="hidden">
       <button class='btn btn-success' type="submit button" id='completeTask' class="close" aria-label="Complete">
         <span aria-hidden="true" >&#x2714;</span>
       </button>
     </form>
+	</td>
+	<td class='buttons'>
+	<div class="btn-group" role="group">	
+    
     <form method="get" action="">
       <input name="editTask" value="<?=$tasklist['id'];?>" type="hidden">
       <button class='btn btn-warning' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['id'];?>">
@@ -232,7 +262,7 @@ $stmt = 'UPDATE time SET date_out= '.$date.'\', time_out=\''.$time.'\' WHERE id=
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
   Launch demo modal
 </button> -->
-<button class='btn btn-warning' type="button" data-toggle="modal" data-target="#myModal">
+<button class='mx-auto btn btn-warning' type="button" data-toggle="modal" data-target="#myModal">
         <span aria-hidden="true">&#x270E;</span>
       </button>
 

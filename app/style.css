@@ -4,10 +4,10 @@
 	background-size: cover;
 }*/
 
-.container {
-	/*width: 450px;*/
+/*.container {
+	width: 450px;
 	margin: 0 auto;
-}
+}*/
 
 .form-inline {
 	margin-bottom: 20px;
@@ -45,4 +45,12 @@ table.table-striped tr th.buttons {
 
 .editWindow {
 	margin-top: 5px;
+}
+
+table {
+	margin: 0 auto;
+}
+h1 {
+	text-align: center;
+	margin: 30px;	
 }
