@@ -52,5 +52,22 @@ table {
 }
 h1 {
 	text-align: center;
-	margin: 30px;	
+	margin: 30px;
+	font-family: 'Share Tech', sans-serif;
+	font-size: 60px;	
+}
+tr {
+   line-height: 13px;
+   min-height: 13px;
+   height: 13px;
+   border-top: 2px solid #ccc;
+   border-bottom: 2px solid #ccc;
+}
+
+.innerRow {
+	border-top: 0;
+}
+
+.upperRow {
+	border-bottom: 0;
 }
