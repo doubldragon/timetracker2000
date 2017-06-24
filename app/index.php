@@ -129,7 +129,7 @@ function removeTask($db, $id) {
 <!-- Active Tasks Being Tracked -->
 
 
-<table class='table table-responsive  mx-auto col-md-4'>
+<table class='table table-responsive mx-auto col-md-4'>
 <thead>
 <tr>
   <th>Date</th>
@@ -248,7 +248,6 @@ function removeTask($db, $id) {
   $db = $tasklist['time_end'];
   // $endDay = date("M d", date(strtotime($db)));
   $endTime = date("h:ia", date(strtotime($db)));
-  var_dump(round((strtotime($tasklist['time_start']) - strtotime($tasklist['time_end']))/3600, 1));
   ?>
   <tr>
   <td class='align-middle'>

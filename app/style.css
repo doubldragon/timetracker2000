@@ -49,6 +49,7 @@ table.table-striped tr th.buttons {
 
 table {
 	margin: 0 auto;
+	align-content: center;
 }
 h1 {
 	text-align: center;
