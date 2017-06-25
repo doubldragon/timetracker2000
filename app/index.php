@@ -129,7 +129,7 @@ function removeTask($db, $id) {
 <!-- Active Tasks Being Tracked -->
 
 
-<table class='table table-responsive mx-auto col-md-4'>
+<table class='table'>
 <thead>
 <tr>
   <th>Date</th>
@@ -141,10 +141,15 @@ function removeTask($db, $id) {
 </thead>
 
 <tbody>
-<?php foreach (getActiveTasks(getDb()) as $tasklist) {
+<?php 
+  foreach (getActiveTasks(getDb()) as $tasklist) {
   $db = $tasklist['time_start'];
   $startDay = date("M d", date(strtotime($db)));
   $startTime = date("h:ia", date(strtotime($db)));
+  $editWindowStartTime = date("H:i", date(strtotime($db)));
+  $editWindowStartDate = date("Y-m-d", date(strtotime($db)));
+  
+
   ?>
   <tr >
   <td class='align-middle' rowspan="2">
@@ -192,11 +197,11 @@ function removeTask($db, $id) {
         </div>
         <div class="input-group editWindow">
       <div class="input-group-addon">Start Date</div>
-        <input type="date" value='<?=$tasklist['time_start'];?>'>
+        <input type="date" value='<?=$editWindowStartDate;?>'>
         </div>
         <div class="input-group editWindow">
       <div class="input-group-addon">Start Time</div>
-        <input type="time" value="<?=$tasklist['time_start'];?>" />
+        <input type="time" value="<?=$editWindowStartTime;?>" />
         </div>
         <div class="input-group editWindow">
     <div class="input-group-addon">End Date</div>
@@ -204,7 +209,7 @@ function removeTask($db, $id) {
         </div>
         <div class="input-group editWindow">
     <div class="input-group-addon">End Time</div>
-        <input type="time" name="usr_time" value="19:47" />
+        <input type="time" name="usr_time"  />
         </div>
         <div class="input-group editWindow">
       <div class="input-group-addon">Comment:</div>
@@ -245,8 +250,11 @@ function removeTask($db, $id) {
   $db = $tasklist['time_start'];
   $startDay = date("M d", date(strtotime($db)));
   $startTime = date("h:ia", date(strtotime($db)));
+  $editWindowStartTime = date("H:i", date(strtotime($db)));
+  $editWindowStartDate = date("Y-m-d", date(strtotime($db)));
   $db = $tasklist['time_end'];
-  // $endDay = date("M d", date(strtotime($db)));
+  $editWindowEndTime = date("H:i", date(strtotime($db)));
+  $editWindowEndDate = date("Y-m-d", date(strtotime($db)));
   $endTime = date("h:ia", date(strtotime($db)));
   ?>
   <tr>
@@ -287,19 +295,19 @@ function removeTask($db, $id) {
           </div>
           <div class="input-group editWindow">
         <div class="input-group-addon">Start Date</div>
-          <input type="date" value='<?=$tasklist['time_start'];?>'>
+          <input type="date" value='<?=$editWindowStartDate;?>'>
           </div>
           <div class="input-group editWindow">
         <div class="input-group-addon">Start Time</div>
-          <input type="time" value="<?=$tasklist['time_start'];?>" />
+          <input type="time" value="<?=$editWindowStartTime?>" />
           </div>
           <div class="input-group editWindow">
       <div class="input-group-addon">End Date</div>
-          <input type="date">
+          <input type="date" value='<?=$editWindowEndDate;?>'>
           </div>
           <div class="input-group editWindow">
       <div class="input-group-addon">End Time</div>
-          <input type="time" name="usr_time" value="19:47" />
+          <input type="time" name="usr_time" value='<?=$editWindowEndTime;?>' />
           </div>
           <div class="input-group editWindow">
         <div class="input-group-addon">Comment:</div>
