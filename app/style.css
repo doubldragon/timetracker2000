@@ -65,10 +65,20 @@ tr {
    border-bottom: 2px solid #ccc;
 }
 
-.innerRow {
-	border-top: 0;
+
+
+
+
+.table td {
+	text-align: center;
+	vertical-align: middle;
+
 }
 
-.upperRow {
-	border-bottom: 0;
+.table td.upperRow {
+	border-bottom: none;
+	text-align: left;
+}
+.table td.innerRow {
+	border-top: none;
 }

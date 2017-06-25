@@ -152,19 +152,19 @@ function removeTask($db, $id) {
 
   ?>
   <tr >
-  <td class='align-middle' rowspan="2">
-  <?=$startDay;?>
+  <td rowspan="2">
+    <?=$startDay;?>
   </td>
-  <td class='align-middle upperRow'>
+  <td class='upperRow'>
     <strong><?=$tasklist['task'];?></strong>
   </td>
-        <td class='align-middle'>
-  <?=$startTime;?>
+  <td>
+    <?=$startTime;?>
   </td>
   <td class='align-middle' rowspan="2">
     <form method="get" action="">
         <input name="completeTask" value="<?=$tasklist['id'];?>" type="hidden">
-        <button class='btn btn-success' type="submit button" id='completeTask' class="close" aria-label="Complete">
+        <button class='btn btn-outline-success' type="submit button" id='completeTask' class="close" aria-label="Complete">
           <span aria-hidden="true" >&#x2714;</span>
         </button>
       </form>
@@ -177,7 +177,7 @@ function removeTask($db, $id) {
    <!-- Edit task button  -->
    <form method="get" action="">
       <input name="editTask" value="<?=$tasklist['id'];?>" type="hidden">
-      <button class='btn btn-warning' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['id'];?>">
+      <button class='btn btn-outline-warning' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['id'];?>">
         <span aria-hidden="true">&#x270E;</span>
       </button>
     <!-- Modal -->
@@ -192,8 +192,8 @@ function removeTask($db, $id) {
       </div>
       <div class="modal-body">
         <div class="input-group editWindow">
-      <div class="input-group-addon">Task</div>
-        <input type='text' value='<?=$tasklist['task'];?>' />
+          <div class="input-group-addon">Task</div>
+          <input type='text' value='<?=$tasklist['task'];?>' />
         </div>
         <div class="input-group editWindow">
       <div class="input-group-addon">Start Date</div>
@@ -229,7 +229,7 @@ function removeTask($db, $id) {
 <!-- Remove Button     -->
     <form method="get" action="">
       <input name="removeTask" value="<?=$tasklist['id'];?>" type="hidden">
-      <button class = 'btn btn-danger' type="submit " id='removeTask' class="close" aria-label="Remove">
+      <button class = 'btn btn-outline-danger' type="submit " id='removeTask' class="close" aria-label="Remove">
         <span aria-hidden="true" >&times;</span>
       </button>
     </form>
@@ -275,7 +275,7 @@ function removeTask($db, $id) {
       <!-- Edit task button  -->
      <form method="get" action="">
         <input name="editTask" value="<?=$tasklist['id'];?>" type="hidden">
-        <button class='btn btn-warning' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['id'];?>">
+        <button class='btn btn-outline-warning' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['id'];?>">
           <span aria-hidden="true">&#x270E;</span>
         </button>
       <!-- Modal -->
@@ -327,7 +327,7 @@ function removeTask($db, $id) {
   <!-- Remove Button     -->
       <form method="get" action="">
         <input name="removeTask" value="<?=$tasklist['id'];?>" type="hidden">
-        <button class = 'btn btn-danger' type="submit " id='removeTask' class="close" aria-label="Remove">
+        <button class = 'btn btn-outline-danger' type="submit " id='removeTask' class="close" aria-label="Remove">
           <span aria-hidden="true" >&times;</span>
         </button>
       </form>
