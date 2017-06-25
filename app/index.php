@@ -18,6 +18,22 @@ if (isset($_GET['taskName']) && isset($_GET['cat_id'])) {
   addTask(getDb(), $safeTask, $safeId);
 }
 
+if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['editWinStartDate']) 
+  && isset($_GET['editWinStartTime']) && isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime']) 
+  && isset($_GET['editWinComments']) && isset($_GET['editWinCatId'])) {
+  $safeTask = htmlentities($_GET['editWinTask']);
+  $safeId = htmlentities($_GET['editWinId']);
+  $safeCatId = htmlentities($_GET['editWinCatId']);
+  $safeStartDate = htmlentities($_GET['editWinStartDate']);
+  $safeStartTime = htmlentities($_GET['editWinStartTime']);
+  $safeEndDate = htmlentities($_GET['editWinEndDate']);
+  $safeEndTime = htmlentities($_GET['editWinEndTime']);
+  $safeComments = htmlentities($_GET['editWinComments']);
+  $startTime = $safeStartDate . $safeStartTime;
+  $endTime = $safeEndDate . $safeEndTime;
+  editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments);
+}
+
 if (isset($_GET['newCategory'])) {
   $safeCategory = htmlentities($_GET['newCategory']);
   addCategory(getDb(), $safeCategory);
@@ -59,6 +75,16 @@ function completeTask($db, $id) {
   $timestamp = date("Y-m-d H:i:s");
   // $duration = Add Duration of activity to table
   $stmt   = 'UPDATE taskList SET time_end= \''.$timestamp.'\' WHERE id='.$id;
+  $result = pg_query($stmt);
+}
+
+function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) {
+  //$timestamp = date("Y-m-d H:i:s");
+  // $duration = Add Duration of activity to table
+  //UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\',
+  //comments = \''.$comments.'\' WHERE id=' .$id;
+
+  $stmt   = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comments = \''.$comments.'\' WHERE id=' .$id;
   $result = pg_query($stmt);
 }
 
@@ -176,53 +202,54 @@ function removeTask($db, $id) {
 
    <!-- Edit task button  -->
    <form method="get" action="">
-      <input name="editTask" value="<?=$tasklist['id'];?>" type="hidden">
+      <input name="editWinId" value="<?=$tasklist['id'];?>" type="hidden">
+      <input name="editWinCatId" value="<?=$tasklist['cat_id'];?>" type="hidden">
       <button class='btn btn-outline-warning' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['id'];?>">
         <span aria-hidden="true">&#x270E;</span>
       </button>
     <!-- Modal -->
-<div class="modal fade" id="modal<?=$tasklist['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Time</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="modal fade" id="modal<?=$tasklist['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Time</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group editWindow">
+                <div class="input-group-addon">Task</div>
+                <input type='text' name='editWinTask' value='<?=$tasklist['task'];?>' />
+              </div>
+              <div class="input-group editWindow">
+            <div class="input-group-addon">Start Date</div>
+              <input type="date" name='editWinStartDate' value='<?=$editWindowStartDate;?>'>
+              </div>
+              <div class="input-group editWindow">
+            <div class="input-group-addon">Start Time</div>
+              <input type="time" name='editWinStartTime' value="<?=$editWindowStartTime;?>" />
+              </div>
+              <div class="input-group editWindow">
+          <div class="input-group-addon">End Date</div>
+              <input type="date" name='editWinEndDate'>
+              </div>
+              <div class="input-group editWindow">
+          <div class="input-group-addon">End Time</div>
+              <input type="time" name='editWinEndDate'  />
+              </div>
+              <div class="input-group editWindow">
+            <div class="input-group-addon">Comment:</div>
+              <textarea rows='4' name='editWinComments' style='width: 100%;' placeholder="Fam, what are you doin?"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        <div class="input-group editWindow">
-          <div class="input-group-addon">Task</div>
-          <input type='text' value='<?=$tasklist['task'];?>' />
-        </div>
-        <div class="input-group editWindow">
-      <div class="input-group-addon">Start Date</div>
-        <input type="date" value='<?=$editWindowStartDate;?>'>
-        </div>
-        <div class="input-group editWindow">
-      <div class="input-group-addon">Start Time</div>
-        <input type="time" value="<?=$editWindowStartTime;?>" />
-        </div>
-        <div class="input-group editWindow">
-    <div class="input-group-addon">End Date</div>
-        <input type="date">
-        </div>
-        <div class="input-group editWindow">
-    <div class="input-group-addon">End Time</div>
-        <input type="time" name="usr_time"  />
-        </div>
-        <div class="input-group editWindow">
-      <div class="input-group-addon">Comment:</div>
-        <textarea rows='4' style='width: 100%;' placeholder="Fam, what are you doin?"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
     </form>
 
 
