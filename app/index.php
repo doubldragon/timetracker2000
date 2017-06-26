@@ -19,7 +19,7 @@ if (isset($_GET['taskName']) && isset($_GET['cat_id'])) {
 }
 
 if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['editWinStartDate']) 
-  && isset($_GET['editWinStartTime']) && isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime']) 
+  && isset($_GET['editWinStartTime']) //&& isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime']) 
   && isset($_GET['editWinComments']) && isset($_GET['editWinCatId'])) {
   $safeTask = htmlentities($_GET['editWinTask']);
   $safeId = htmlentities($_GET['editWinId']);
@@ -28,10 +28,11 @@ if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['edi
   $safeStartTime = htmlentities($_GET['editWinStartTime']);
   $safeEndDate = htmlentities($_GET['editWinEndDate']);
   $safeEndTime = htmlentities($_GET['editWinEndTime']);
-  $safeComments = htmlentities($_GET['editWinComments']);
-  $startTime = $safeStartDate . $safeStartTime;
-  $endTime = $safeEndDate . $safeEndTime;
-  editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments);
+  $safeComments = (string)htmlentities($_GET['editWinComments']);
+  $startTime = date('Y-m-d h:i:s',strtotime($safeStartDate . $safeStartTime));
+  $endTime = date('Y-m-d h:i:s',strtotime($safeEndDate . $safeEndTime));
+  // var_dump(date('y-m-d h:i:s', $startTime));
+  editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments); 
 }
 
 if (isset($_GET['newCategory'])) {
@@ -74,17 +75,18 @@ function getCategory($db) {
 function completeTask($db, $id) {
   $timestamp = date("Y-m-d H:i:s");
   // $duration = Add Duration of activity to table
-  $stmt   = 'UPDATE taskList SET time_end= \''.$timestamp.'\' WHERE id='.$id;
+  $stmt = 'UPDATE taskList SET time_end= \''.$timestamp.'\' WHERE id='.$id;
   $result = pg_query($stmt);
 }
 
-function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) {
+function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) { //$end,
   //$timestamp = date("Y-m-d H:i:s");
   // $duration = Add Duration of activity to table
   //UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\',
   //comments = \''.$comments.'\' WHERE id=' .$id;
-
-  $stmt   = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comments = \''.$comments.'\' WHERE id=' .$id;
+  
+  $stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE id=' .$id; //
+  var_dump($stmt);
   $result = pg_query($stmt);
 }
 
