@@ -38,7 +38,7 @@
               </div>
               <div class="input-group editWindow">
           <div class="input-group-addon">End Time</div>
-              <input type="time" name='editWinEndDate' value="<?=$editWindowEndTime;?>" />
+              <input type="time" name='editWinEndTime' value="<?=$editWindowEndTime;?>" />
               </div>
               <div class="input-group editWindow">
             <div class="input-group-addon">Comment:</div>

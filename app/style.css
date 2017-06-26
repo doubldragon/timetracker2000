@@ -61,12 +61,14 @@ tr {
    line-height: 13px;
    min-height: 13px;
    height: 13px;
-   border-top: 2px solid #ccc;
-   border-bottom: 2px solid #ccc;
+   border-top: none;
+   border-bottom: none;
 }
 
 
-
+/*.table :nth-child(3) .table :nth-child(4) {
+	background-color: #cca !important;
+}*/
 
 
 .table td {
@@ -81,4 +83,14 @@ tr {
 }
 .table td.innerRow {
 	border-top: none;
+}
+
+#commentRow {
+	border-top: none !important;
+	background-color: #FAF2DD;
+}
+#mainRow {
+	border-bottom: none !important;
+	border-top: 2px solid #000 !important;
+	/*background-color: red;*/
 }

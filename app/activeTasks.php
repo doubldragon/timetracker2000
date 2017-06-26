@@ -8,8 +8,8 @@
   
 
   ?>
-  <tr >
-  <td rowspan="2">
+  <tr class='mb-5' id='mainRow'>
+  <td >
     <?=$startDay;?>
   </td>
   <td class='upperRow'>
@@ -31,7 +31,7 @@
   </td>
 </tr>
 <tr>
-  <td class='innerRow' colspan="2">tags go here</td>
+  <td id='commentRow' class='upperRow' colspan="3">Comments: <?=$tasklist['comment'];?></td>
 </tr>
   <?php
 }

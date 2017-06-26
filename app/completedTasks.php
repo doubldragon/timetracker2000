@@ -9,24 +9,26 @@
   $editWindowEndDate = date("Y-m-d", date(strtotime($db)));
   $endTime = date("h:ia", date(strtotime($db)));
   ?>
-  <tr>
-  <td class='align-middle'>
+ <tr id='mainRow'>
+  <td >
     <?=$startDay;?>
   </td>
-  <td class='align-middle'>
-    <?=$tasklist['task'];?>
+  <td class='upperRow'>
+    <strong><?=$tasklist['task'];?></strong>
   </td>
-  <td class='align-middle'>
+  <td>
     <?=$startTime;?>
-  </td >
-  <td class='align-middle'>
-    <?=$endTime;?>
   </td>
-  <td class='buttons'>
+  <td class='align-middle' >
+   <?=$endTime;?>
+  </td>
+  <td class='buttons' rowspan="2">
     <?php include 'editButton.php'; ?>
-
-    </td>
-  </tr>
+  </td>
+</tr>
+<tr>
+  <td id='commentRow' class='upperRow border-top-0' colspan="4">Comments: <?=$tasklist['comment'];?></td>
+</tr>
   <?php
 }
 ?>

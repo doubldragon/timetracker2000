@@ -54,28 +54,24 @@
 
     <!-- Active Tasks Being Tracked -->
 
+    <table class='table'> 
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Project Task</th>
+          <th>Start</th>
+          <th>Stop</th>
+          <th class='buttons'></th>
+        </tr>
+      </thead>
 
-    <table class='table'>
-    <thead>
-    <tr>
-      <th>Date</th>
-      <th>Project Task</th>
-      <th>Start</th>
-      <th>Stop</th>
-      <th class='buttons'></th>
-    </tr>
-    </thead>
+      <tbody>
+      <?php include 'activeTasks.php'; ?>
 
-    <tbody>
-    <?php include 'activeTasks.php'; ?>
+      <!-- Populate table with completed tasks -->
+      <?php include 'completedTasks.php'; ?>
 
-    <!-- Populate table with completed tasks -->
-    <?php include 'completedTasks.php'; ?>
-
-    </tbody>
-
-
-
+      </tbody>
     </table>
 
     </div>

@@ -1,4 +1,4 @@
-I'm from Functions
+
 <?php
 
 if (isset($_GET['taskName']) && isset($_GET['cat_id'])) {
@@ -15,20 +15,23 @@ if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['edi
   $safeCatId = htmlentities($_GET['editWinCatId']);
   $safeStartDate = htmlentities($_GET['editWinStartDate']);
   $safeStartTime = htmlentities($_GET['editWinStartTime']);
-  $safeEndDate = htmlentities($_GET['editWinEndDate']);
-  $safeEndTime = htmlentities($_GET['editWinEndTime']);
+  if (isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime'])){
+	  $safeEndDate = htmlentities($_GET['editWinEndDate']);
+	  $safeEndTime = htmlentities($_GET['editWinEndTime']);
+  };
   $safeComments = (string)htmlentities($_GET['editWinComments']);
   $startTime = date('Y-m-d h:i:s',strtotime($safeStartDate . $safeStartTime));
+  var_dump($_GET['editWinEndDate'] = null && $_GET['editWinEndTime'] = null);
   if ($_GET['editWinEndDate'] = null && $_GET['editWinEndTime'] = null) {
   	$endTime = 'Null';
   } else {
-  $endTime = date('Y-m-d h:i:s',strtotime($safeEndDate . $safeEndTime));
+  		$endTime = date('Y-m-d h:i:s',strtotime($safeEndDate . $safeEndTime));
 	};
+	var_dump($startTime);
 	var_dump($endTime);
   // var_dump(date('y-m-d h:i:s', $startTime));
   editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments); 
-}
-
+}    
 if (isset($_GET['newCategory'])) {
   $safeCategory = htmlentities($_GET['newCategory']);
   addCategory(getDb(), $safeCategory);
@@ -73,12 +76,8 @@ function completeTask($db, $id) {
   $result = pg_query($stmt);
 }
 
-function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) { //$end,
-  //$timestamp = date("Y-m-d H:i:s");
-  // $duration = Add Duration of activity to table
-  //UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\',
-  //comments = \''.$comments.'\' WHERE id=' .$id;
-  if ($end = 'Null'){
+function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) { 
+  if ($end === 'Null'){
   	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', comment = \''.$comments.'\' WHERE id=' .$id;
   } else {
   	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE id=' .$id; //
