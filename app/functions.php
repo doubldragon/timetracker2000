@@ -19,7 +19,12 @@ if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['edi
   $safeEndTime = htmlentities($_GET['editWinEndTime']);
   $safeComments = (string)htmlentities($_GET['editWinComments']);
   $startTime = date('Y-m-d h:i:s',strtotime($safeStartDate . $safeStartTime));
+  if ($_GET['editWinEndDate'] = null && $_GET['editWinEndTime'] = null) {
+  	$endTime = 'Null';
+  } else {
   $endTime = date('Y-m-d h:i:s',strtotime($safeEndDate . $safeEndTime));
+	};
+	var_dump($endTime);
   // var_dump(date('y-m-d h:i:s', $startTime));
   editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments); 
 }
@@ -73,8 +78,11 @@ function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) { /
   // $duration = Add Duration of activity to table
   //UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\',
   //comments = \''.$comments.'\' WHERE id=' .$id;
-  
-  $stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE id=' .$id; //
+  if ($end = 'Null'){
+  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', comment = \''.$comments.'\' WHERE id=' .$id;
+  } else {
+  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE id=' .$id; //
+  };
   var_dump($stmt);
   $result = pg_query($stmt);
 }
