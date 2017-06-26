@@ -25,7 +25,7 @@ if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['edi
   if ($_GET['editWinEndDate'] = null && $_GET['editWinEndTime'] = null) {
   	$endTime = 'Null';
   } else {
-  		$endTime = date('Y-m-d h:i:s',strtotime($safeEndDate . $safeEndTime));
+  		$endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
 	};
 	var_dump($startTime);
 	var_dump($endTime);
