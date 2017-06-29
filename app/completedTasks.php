@@ -14,7 +14,7 @@
     <?=$startDay;?>
   </td>
   <td class='upperRow'>
-    <strong><?=$tasklist['task'];?></strong>
+    <?=$tasklist['task'];?>
   </td>
   <td>
     <?=$startTime;?>

@@ -27,7 +27,7 @@
             <?php } ?>
           </select>
         <span class='input-group-btn'>
-          <button type="submit" class="btn btn-primary">Punch the Clock</button>
+          <button type="submit" class="btn btn-info">Punch the Clock</button>
         </span>
       </div>
       <!-- <button type="submit" class="btn btn-primary">Punch the Clock</button> -->
@@ -53,7 +53,7 @@
 
 
     <!-- Active Tasks Being Tracked -->
-
+    <?php include 'cardResults.php'; ?>
     <table class='table'> 
       <thead>
         <tr>
@@ -66,13 +66,15 @@
       </thead>
 
       <tbody>
-      <?php include 'activeTasks.php'; ?>
+      <!-- <php include 'activeTasks.php'; ?> -->
 
       <!-- Populate table with completed tasks -->
       <?php include 'completedTasks.php'; ?>
 
       </tbody>
     </table>
+
+      
 
     </div>
 

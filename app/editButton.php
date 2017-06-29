@@ -7,7 +7,7 @@
       <input name="editWinId" value="<?=$tasklist['id'];?>" type="hidden">
       <input name="editWinCatId" value="<?=$tasklist['cat_id'];?>" type="hidden">
       <button class='btn btn-outline-warning mr-2' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['id'];?>">
-        <span aria-hidden="true">&#x270E;</span>
+        <span aria-hidden="true"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></span>
       </button>
     <!-- Modal -->
       <div class="modal fade" id="modal<?=$tasklist['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -59,7 +59,7 @@
     <form method="get" action="">
       <input name="removeTask" value="<?=$tasklist['id'];?>" type="hidden">
       <button class = 'btn btn-outline-danger' type="submit " id='removeTask' class="close" aria-label="Remove">
-        <span aria-hidden="true" >&times;</span>
+        <span aria-hidden="true" ><i class="fa fa-2x fa-times-circle-o" aria-hidden="true"></i></span>
       </button>
     </form>
 
