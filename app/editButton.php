@@ -4,13 +4,13 @@
 
    <!-- Edit task button  -->
    <form method="get" action="">
-      <input name="editWinId" value="<?=$tasklist['id'];?>" type="hidden">
+      <input name="editWinId" value="<?=$tasklist['task_id'];?>" type="hidden">
       <input name="editWinCatId" value="<?=$tasklist['cat_id'];?>" type="hidden">
-      <button class='btn btn-outline-warning mr-2' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['id'];?>">
+      <button class='btn btn-outline-warning mr-2' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['task_id'];?>">
         <span aria-hidden="true"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></span>
       </button>
     <!-- Modal -->
-      <div class="modal fade" id="modal<?=$tasklist['id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modal<?=$tasklist['task_id'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -57,7 +57,7 @@
 
 <!-- Remove Button     -->
     <form method="get" action="">
-      <input name="removeTask" value="<?=$tasklist['id'];?>" type="hidden">
+      <input name="removeTask" value="<?=$tasklist['task_id'];?>" type="hidden">
       <button class = 'btn btn-outline-danger' type="submit " id='removeTask' class="close" aria-label="Remove">
         <span aria-hidden="true" ><i class="fa fa-2x fa-times-circle-o" aria-hidden="true"></i></span>
       </button>

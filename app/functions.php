@@ -18,15 +18,21 @@ if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['edi
   if (isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime'])){
 	  $safeEndDate = htmlentities($_GET['editWinEndDate']);
 	  $safeEndTime = htmlentities($_GET['editWinEndTime']);
+	  $endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
+  } else {
+  	$endTime = 'Null';
+
   };
+  var_dump("End Time " . $endTime);
   $safeComments = (string)htmlentities($_GET['editWinComments']);
   $startTime = date('Y-m-d h:i:s',strtotime($safeStartDate . $safeStartTime));
-  ;
-  if ($_GET['editWinEndDate'] = null && $_GET['editWinEndTime'] = null) {
-  	$endTime = 'Null';
-  } else {
-  		$endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
-	};
+  
+ //  if ($_GET['editWinEndDate'] == 'false' && $_GET['editWinEndTime'] == 'false') {
+ //  	$endTime = 'Null';
+ //  } else {
+ //  		$endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
+	// };
+	
   editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments); 
 }    
 if (isset($_GET['newCategory'])) {
@@ -69,24 +75,26 @@ function getCategory($db) {
 function completeTask($db, $id) {
   $timestamp = date("Y-m-d H:i:s");
   // $duration = Add Duration of activity to table
-  $stmt = 'UPDATE taskList SET time_end= \''.$timestamp.'\' WHERE id='.$id;
+  $stmt = 'UPDATE taskList SET time_end= \''.$timestamp.'\' WHERE task_id='.$id;
+  
   $result = pg_query($stmt);
 }
 
 function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) { 
-  if ($end === 'Null'){
-  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', comment = \''.$comments.'\' WHERE id=' .$id;
+var_dump("END: ". $end);
+  if ($end == ''){
+  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', comment = \''.$comments.'\' WHERE task_id=' .$id;
   } else {
-  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE id=' .$id; //
+  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE task_id=' .$id; //
   };
+  var_dump($stmt);
   $result = pg_query($stmt);
 }
 
 function getActiveTasks($db) {
   $request = pg_query(getDb(), "SELECT * from taskList 
 	JOIN category ON taskList.cat_id=category.id
-	where taskList.time_end is NULL
-	ORDER BY taskList.time_start DESC;");
+	ORDER BY taskList.time_end DESC, taskList.time_start;");
   return pg_fetch_all($request);
 }
 
@@ -96,7 +104,7 @@ function getCompletedTasks($db) {
 }
 
 function removeTask($db, $id) {
-  $stmt   = "DELETE FROM taskList WHERE id=".$id;
+  $stmt   = "DELETE FROM taskList WHERE task_id=".$id;
   $result = pg_query($stmt);
 }
 
