@@ -13,7 +13,6 @@
     $db = $tasklist['time_end'];
     $editWindowEndTime = date("H:i", date(strtotime($db)));
     $editWindowEndDate = date("Y-m-d", date(strtotime($db)));
-    var_dump($editWindowEndTime);
     $complete=true;
   }
  
