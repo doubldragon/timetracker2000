@@ -10,29 +10,35 @@ if (isset($_GET['taskName']) && isset($_GET['cat_id'])) {
 if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['editWinStartDate']) 
   && isset($_GET['editWinStartTime']) //&& isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime']) 
   && isset($_GET['editWinComments']) && isset($_GET['editWinCatId'])) {
+  
+
+
   $safeTask = htmlentities($_GET['editWinTask']);
   $safeId = htmlentities($_GET['editWinId']);
   $safeCatId = htmlentities($_GET['editWinCatId']);
   $safeStartDate = htmlentities($_GET['editWinStartDate']);
   $safeStartTime = htmlentities($_GET['editWinStartTime']);
-  if (isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime'])){
-	  $safeEndDate = htmlentities($_GET['editWinEndDate']);
-	  $safeEndTime = htmlentities($_GET['editWinEndTime']);
-	  $endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
+  $safeEndDate = htmlentities($_GET['editWinEndDate']);
+  $safeEndTime = htmlentities($_GET['editWinEndTime']);
+  if ($safeEndDate == '' || $safeEndTime == '') {
+    $endTime = null;
   } else {
-  	$endTime = 'Null';
+    $endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
 
   };
-  var_dump("End Time " . $endTime);
-  $safeComments = (string)htmlentities($_GET['editWinComments']);
-  $startTime = date('Y-m-d h:i:s',strtotime($safeStartDate . $safeStartTime));
+  $safeComments = htmlentities($_GET['editWinComments']);
+  if ($safeComments == '') {
+    $safeComments = null;
+  };
+  var_dump("Comments: " . $safeComments);
+  $startTime = date('Y-m-d H:i:s',strtotime($safeStartDate . $safeStartTime));
   
  //  if ($_GET['editWinEndDate'] == 'false' && $_GET['editWinEndTime'] == 'false') {
- //  	$endTime = 'Null';
+ //   $endTime = 'Null';
  //  } else {
- //  		$endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
-	// };
-	
+ //     $endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
+  // };
+  
   editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments); 
 }    
 if (isset($_GET['newCategory'])) {
@@ -83,9 +89,9 @@ function completeTask($db, $id) {
 function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) { 
 var_dump("END: ". $end);
   if ($end == ''){
-  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', comment = \''.$comments.'\' WHERE task_id=' .$id;
+    $stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', comment = \''.$comments.'\' WHERE task_id=' .$id;
   } else {
-  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE task_id=' .$id; //
+    $stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE task_id=' .$id; //
   };
   var_dump($stmt);
   $result = pg_query($stmt);
@@ -93,8 +99,8 @@ var_dump("END: ". $end);
 
 function getActiveTasks($db) {
   $request = pg_query(getDb(), "SELECT * from taskList 
-	JOIN category ON taskList.cat_id=category.id
-	ORDER BY taskList.time_end DESC, taskList.time_start;");
+  JOIN category ON taskList.cat_id=category.id
+  ORDER BY taskList.time_end DESC, taskList.time_start;");
   return pg_fetch_all($request);
 }
 
