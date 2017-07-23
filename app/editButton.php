@@ -42,7 +42,7 @@
               </div>
               <div class="input-group editWindow">
             <div class="input-group-addon">Comment:</div>
-              <textarea rows='4' name='editWinComments' style='width: 100%;' value='<?=$tasklist['comment'];?>' placeholder="Fam, what are you doin?"></textarea>
+              <textarea rows='4' name='editWinComments' style='width: 100%;' ><?=$tasklist['comment'];?></textarea>
               </div>
             </div>
             <div class="modal-footer">
