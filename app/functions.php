@@ -3,6 +3,9 @@
 
   //////////////////////////
   // Basic connection and retrieval functions
+  //
+  // SETUP INSTRUCTIONS:
+  // Enter connection information in getDb() to give permission for the app to communicate to the database
   //////////////////////////
 
   function getDb() {
