@@ -34,11 +34,11 @@
               </div>
               <div class="input-group editWindow">
           <div class="input-group-addon">End Date</div>
-              <input type="date" name='editWinEndDate' value="<?=$editWindowEndDate;?>" >
+              <input type="date" name='editWinEndDate' value="<?php if ($complete) {echo($editWindowEndDate);} ?>" >
               </div>
               <div class="input-group editWindow">
           <div class="input-group-addon">End Time</div>
-              <input type="time" name='editWinEndTime' value="<?=$editWindowEndTime;?>" />
+              <input type="time" name='editWinEndTime' value="<?php if ($complete) {echo($editWindowEndTime);} ?>" >
               </div>
               <div class="input-group editWindow">
             <div class="input-group-addon">Comment:</div>

@@ -7,11 +7,17 @@
   $editWindowStartDate = date("Y-m-d", date(strtotime($db)));
   if ($tasklist['time_end'] == NULL){
     $end= strtotime(date("Y-m-d H:i:s"));
+    $complete = false;
   }else {
     $end = strtotime($tasklist['time_end']);
+    $db = $tasklist['time_end'];
+    $editWindowEndTime = date("H:i", date(strtotime($db)));
+    $editWindowEndDate = date("Y-m-d", date(strtotime($db)));
+    var_dump($editWindowEndTime);
+    $complete=true;
   }
  
-  $duration = round(($end-strtotime($tasklist['time_start']))/3600, 1);
+  $duration = round(($end-strtotime($tasklist['time_start']))/3600, 2);
   ?>
 
 

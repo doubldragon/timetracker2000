@@ -30,7 +30,6 @@
           <button type="submit" class="btn btn-info">Punch the Clock</button>
         </span>
       </div>
-      <!-- <button type="submit" class="btn btn-primary">Punch the Clock</button> -->
     </form>
 
 
@@ -50,8 +49,8 @@
 
     </form>
     </div>
-
-
+    
+    <!-- Sorted Task list will be shown here -->
     <?php include 'cardResults.php'; ?>
 
       
