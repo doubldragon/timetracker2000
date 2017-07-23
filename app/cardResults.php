@@ -7,11 +7,16 @@
   $editWindowStartDate = date("Y-m-d", date(strtotime($db)));
   if ($tasklist['time_end'] == NULL){
     $end= strtotime(date("Y-m-d H:i:s"));
+    $complete = false;
   }else {
     $end = strtotime($tasklist['time_end']);
+    $db = $tasklist['time_end'];
+    $editWindowEndTime = date("H:i", date(strtotime($db)));
+    $editWindowEndDate = date("Y-m-d", date(strtotime($db)));
+    $complete=true;
   }
  
-  $duration = round(($end-strtotime($tasklist['time_start']))/3600, 1);
+  $duration = round(($end-strtotime($tasklist['time_start']))/3600, 2);
   ?>
 
 
@@ -23,13 +28,16 @@
     <h5 class='mb-0 mt-2'><?=$tasklist['task'];?></h5>
     <span class='pull-right' >
     <span class='categoryName mr-3'><h6><em><?=$tasklist['cat_name'];?></em></h6></span>
-    <form  class='checkmark' method="get" action="">
+    
+    <?php if ($tasklist['time_end'] == null) { ?>
+    <form  class='checkmark' method="post" action="">
         <input name="completeTask" value="<?=$tasklist['task_id'];?>" type="hidden">
         <button class='btn btn-outline-success mr-1' type="submit button" id='completeTask' class="close" aria-label="Complete">
           <span aria-hidden="true" ><i class="fa fa-2x fa-flag-checkered" aria-hidden="true"></i></span>
         </button>
       </form>
-      <?php include 'editButton.php'; ?>
+
+      <?php } include 'editButton.php'; ?>
       </span>
   </div>
   <div class="card-block ">

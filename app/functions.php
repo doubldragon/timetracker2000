@@ -1,111 +1,131 @@
 
 <?php
 
-if (isset($_GET['taskName']) && isset($_GET['cat_id'])) {
-  $safeTask = htmlentities($_GET['taskName']);
-  $safeId = htmlentities($_GET['cat_id']);
-  addTask(getDb(), $safeTask, $safeId);
-}
+  //////////////////////////
+  // Basic connection and retrieval functions
+  //////////////////////////
 
-if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['editWinStartDate']) 
-  && isset($_GET['editWinStartTime']) //&& isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime']) 
-  && isset($_GET['editWinComments']) && isset($_GET['editWinCatId'])) {
-  $safeTask = htmlentities($_GET['editWinTask']);
-  $safeId = htmlentities($_GET['editWinId']);
-  $safeCatId = htmlentities($_GET['editWinCatId']);
-  $safeStartDate = htmlentities($_GET['editWinStartDate']);
-  $safeStartTime = htmlentities($_GET['editWinStartTime']);
-  if (isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime'])){
-	  $safeEndDate = htmlentities($_GET['editWinEndDate']);
-	  $safeEndTime = htmlentities($_GET['editWinEndTime']);
-	  $endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
-  } else {
-  	$endTime = 'Null';
+  function getDb() {
+    $db = pg_connect("host=localhost port=5432 dbname=timetracking user=tracker password=track");
+    return $db;
+  }
 
-  };
-  var_dump("End Time " . $endTime);
-  $safeComments = (string)htmlentities($_GET['editWinComments']);
-  $startTime = date('Y-m-d h:i:s',strtotime($safeStartDate . $safeStartTime));
-  
- //  if ($_GET['editWinEndDate'] == 'false' && $_GET['editWinEndTime'] == 'false') {
- //  	$endTime = 'Null';
- //  } else {
- //  		$endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
-	// };
-	
-  editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments); 
-}    
-if (isset($_GET['newCategory'])) {
-  $safeCategory = htmlentities($_GET['newCategory']);
-  addCategory(getDb(), $safeCategory);
-}
+  function getCategory($db) {
+    $request = pg_query(getDb(), "SELECT * FROM category ORDER BY cat_name");
+    return pg_fetch_all($request);
+  }
 
-if (isset($_GET['removeTask'])) {
-  $safeTask = htmlentities($_GET['removeTask']);
-  removeTask(getDb(), $safeTask);
-}
-if (isset($_GET['completeTask'])) {
-  $safeTask = htmlentities($_GET['completeTask']);
-  completeTask(getDb(), $safeTask);
-}
+  function getActiveTasks($db) {
+    $request = pg_query(getDb(), "SELECT * from taskList 
+    JOIN category ON taskList.cat_id=category.id
+    ORDER BY taskList.time_end DESC, taskList.time_start DESC;");
+    return pg_fetch_all($request);
+  }
 
-function getDb() {
-  $db = pg_connect("host=localhost port=5432 dbname=timetracking user=tracker password=track");
-  return $db;
-}
 
-function addTask($db, $taskName, $cat_id) {
-  
-  $timestamp = date("Y-m-d H:i:s");
-  $stmt = 'INSERT INTO taskList (task, cat_id, time_start) VALUES
-      (\''.$taskName.'\',\''.$cat_id.'\',\''.$timestamp.'\');';
-  $result = pg_query($stmt);
-}
+  //////////////////////////
+  // Add Task to Database
+  //////////////////////////
 
-function addCategory($db, $cat_name) {
-  $stmt = 'INSERT INTO category (cat_name) VALUES
-      (\''.$cat_name.'\');';
-  $result = pg_query($stmt);
-}
+  if (isset($_POST['taskName']) && isset($_POST['cat_id'])) {
+    $safeTask = htmlentities($_POST['taskName']);
+    $safeId = htmlentities($_POST['cat_id']);
+    addTask(getDb(), $safeTask, $safeId);
+  }
 
-function getCategory($db) {
-  $request = pg_query(getDb(), "SELECT * FROM category ORDER BY cat_name");
-  return pg_fetch_all($request);
-}
-function completeTask($db, $id) {
-  $timestamp = date("Y-m-d H:i:s");
-  // $duration = Add Duration of activity to table
-  $stmt = 'UPDATE taskList SET time_end= \''.$timestamp.'\' WHERE task_id='.$id;
-  
-  $result = pg_query($stmt);
-}
+  function addTask($db, $taskName, $cat_id) {
+    
+    $timestamp = date("Y-m-d H:i:s");
+    $stmt = 'INSERT INTO taskList (task, cat_id, time_start) VALUES
+        (\''.$taskName.'\',\''.$cat_id.'\',\''.$timestamp.'\');';
+    $result = pg_query($stmt);
+  }
 
-function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) { 
-var_dump("END: ". $end);
-  if ($end == ''){
-  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', comment = \''.$comments.'\' WHERE task_id=' .$id;
-  } else {
-  	$stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE task_id=' .$id; //
-  };
-  var_dump($stmt);
-  $result = pg_query($stmt);
-}
+  //////////////////////////
+  // Edit Task in Database
+  //////////////////////////
 
-function getActiveTasks($db) {
-  $request = pg_query(getDb(), "SELECT * from taskList 
-	JOIN category ON taskList.cat_id=category.id
-	ORDER BY taskList.time_end DESC, taskList.time_start;");
-  return pg_fetch_all($request);
-}
+  if (isset($_POST['editWinTask']) && isset($_POST['editWinId']) && isset($_POST['editWinStartDate']) 
+    && isset($_POST['editWinStartTime']) //&& isset($_POST['editWinEndDate']) && isset($_POST['editWinEndTime']) 
+    && isset($_POST['editWinComments']) && isset($_POST['editWinCatId'])) {
 
-function getCompletedTasks($db) {
-  $request = pg_query(getDb(), "SELECT * FROM taskList WHERE time_end is not null ORDER BY time_end DESC");
-  return pg_fetch_all($request);
-}
+    $safeTask = htmlentities($_POST['editWinTask']);
+    $safeId = htmlentities($_POST['editWinId']);
+    $safeCatId = htmlentities($_POST['editWinCatId']);
+    $safeStartDate = htmlentities($_POST['editWinStartDate']);
+    $safeStartTime = htmlentities($_POST['editWinStartTime']);
+    $safeEndDate = htmlentities($_POST['editWinEndDate']);
+    $safeEndTime = htmlentities($_POST['editWinEndTime']);
+    
+    // Checks time/date fields of task to see if it is still active
+    if ($safeEndDate == '' || $safeEndTime == '') {
+      $endTime = null;
+      } else {
+          $endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
+        };
 
-function removeTask($db, $id) {
-  $stmt   = "DELETE FROM taskList WHERE task_id=".$id;
-  $result = pg_query($stmt);
-}
+    $safeComments = htmlentities($_POST['editWinComments']);
+    if ($safeComments == '') {
+      $safeComments = null;
+      };
+    $startTime = date('Y-m-d H:i:s',strtotime($safeStartDate . $safeStartTime));
+    editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments); 
+  } 
+
+  function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) { 
+    if ($end == ''){
+      $stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', comment = \''.$comments.'\' WHERE task_id=' .$id;
+    } else {
+      $stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE task_id=' .$id; //
+    };
+    $result = pg_query($stmt);
+  }
+
+  //////////////////////////
+  // Add new Category of work to be tracked
+  //////////////////////////
+
+  if (isset($_POST['newCategory'])) {
+    $safeCategory = htmlentities($_POST['newCategory']);
+    addCategory(getDb(), $safeCategory);
+  }
+
+  function addCategory($db, $cat_name) {
+    $stmt = 'INSERT INTO category (cat_name) VALUES
+        (\''.$cat_name.'\');';
+    $result = pg_query($stmt);
+  }
+
+  //////////////////////////
+  // Remove Task from Database
+  //////////////////////////
+
+  if (isset($_POST['removeTask'])) {
+    $safeTask = htmlentities($_POST['removeTask']);
+    removeTask(getDb(), $safeTask);
+  }
+
+  function removeTask($db, $id) {
+    $stmt   = "DELETE FROM taskList WHERE task_id=".$id;
+    $result = pg_query($stmt);
+  }
+
+  //////////////////////////
+  // Complete task in database
+  //////////////////////////
+
+  if (isset($_POST['completeTask'])) {
+    $safeTask = htmlentities($_POST['completeTask']);
+    completeTask(getDb(), $safeTask);
+  }
+
+  function completeTask($db, $id) {
+    $timestamp = date("Y-m-d H:i:s");
+    // $duration = Add Duration of activity to table
+    $stmt = 'UPDATE taskList SET time_end= \''.$timestamp.'\' WHERE task_id='.$id;
+    
+    $result = pg_query($stmt);
+  }
+
 
 ?>

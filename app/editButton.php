@@ -3,7 +3,7 @@
 
 
    <!-- Edit task button  -->
-   <form method="get" action="">
+   <form method="post" action="">
       <input name="editWinId" value="<?=$tasklist['task_id'];?>" type="hidden">
       <input name="editWinCatId" value="<?=$tasklist['cat_id'];?>" type="hidden">
       <button class='btn btn-outline-warning mr-2' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['task_id'];?>">
@@ -34,15 +34,15 @@
               </div>
               <div class="input-group editWindow">
           <div class="input-group-addon">End Date</div>
-              <input type="date" name='editWinEndDate' value="<?=$editWindowEndDate;?>" >
+              <input type="date" name='editWinEndDate' value="<?php if ($complete) {echo($editWindowEndDate);} ?>" >
               </div>
               <div class="input-group editWindow">
           <div class="input-group-addon">End Time</div>
-              <input type="time" name='editWinEndTime' value="<?=$editWindowEndTime;?>" />
+              <input type="time" name='editWinEndTime' value="<?php if ($complete) {echo($editWindowEndTime);} ?>" >
               </div>
               <div class="input-group editWindow">
             <div class="input-group-addon">Comment:</div>
-              <textarea rows='4' name='editWinComments' style='width: 100%;' placeholder="Fam, what are you doin?"></textarea>
+              <textarea rows='4' name='editWinComments' style='width: 100%;' ><?=$tasklist['comment'];?></textarea>
               </div>
             </div>
             <div class="modal-footer">
@@ -56,7 +56,7 @@
 
 
 <!-- Remove Button     -->
-    <form method="get" action="">
+    <form method="post" action="">
       <input name="removeTask" value="<?=$tasklist['task_id'];?>" type="hidden">
       <button class = 'btn btn-outline-danger' type="submit " id='removeTask' class="close" aria-label="Remove">
         <span aria-hidden="true" ><i class="fa fa-2x fa-times-circle-o" aria-hidden="true"></i></span>
