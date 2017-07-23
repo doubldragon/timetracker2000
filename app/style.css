@@ -26,11 +26,12 @@ td {
 
 
 #removeTask, #editTask, #completeTask {
-	padding: auto;
-	font-size: 20px;
+	padding: 4px 8px;
+	font-size: 16px;
+	border: 0;
 }
 
-table.table-striped tr td.buttons {
+/*table.table-striped tr td.buttons {
 	background-color: #fff;
 	width: 100px;
 	border-top: 0;
@@ -41,7 +42,7 @@ table.table-striped tr th.buttons {
 	width: 100px;
 	border-top: 0;
 	border-bottom: 0;
-}
+}*/
 
 .editWindow {
 	margin-top: 5px;
@@ -49,6 +50,7 @@ table.table-striped tr th.buttons {
 
 table {
 	margin: 0 auto;
+	align-content: center;
 }
 h1 {
 	text-align: center;
@@ -60,14 +62,65 @@ tr {
    line-height: 13px;
    min-height: 13px;
    height: 13px;
-   border-top: 2px solid #ccc;
-   border-bottom: 2px solid #ccc;
+   border-top: none;
+   border-bottom: none;
 }
 
-.innerRow {
-	border-top: 0;
+
+/*.table :nth-child(3) .table :nth-child(4) {
+	background-color: #cca !important;
+}*/
+
+
+.table td {
+	text-align: center;
+	vertical-align: middle;
+
 }
 
-.upperRow {
-	border-bottom: 0;
+.table td.upperRow {
+	border-bottom: none;
+	text-align: left;
+}
+.table td.innerRow {
+	border-top: none;
+}
+
+#commentRow {
+	border-top: none !important;
+	background-color: #78CBE4;
+}
+#mainRow {
+	border-bottom: none !important;
+	//border-top: 2px solid #ccc !important;
+	/*background-color: red;*/
+}
+
+.card-header {
+	display: inline-block;
+	padding-bottom: 2px;
+	padding-top: 2px;
+}
+
+.pull-right {
+	float: right !important;
+	display: inline-block;
+}
+
+h4,h5,h6 {
+	display: inline-block;
+	margin: none;
+}
+
+.checkmark {
+	display: inline-block;
+}
+
+div .card-block {
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+hr {
+	margin-top: .25rem;
+	margin-bottom: .25rem;
 }
