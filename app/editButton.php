@@ -3,7 +3,7 @@
 
 
    <!-- Edit task button  -->
-   <form method="get" action="">
+   <form method="post" action="">
       <input name="editWinId" value="<?=$tasklist['task_id'];?>" type="hidden">
       <input name="editWinCatId" value="<?=$tasklist['cat_id'];?>" type="hidden">
       <button class='btn btn-outline-warning mr-2' type="button" id='editTask' class="close" aria-label="Complete" data-toggle="modal" data-target="#modal<?=$tasklist['task_id'];?>">
@@ -56,7 +56,7 @@
 
 
 <!-- Remove Button     -->
-    <form method="get" action="">
+    <form method="post" action="">
       <input name="removeTask" value="<?=$tasklist['task_id'];?>" type="hidden">
       <button class = 'btn btn-outline-danger' type="submit " id='removeTask' class="close" aria-label="Remove">
         <span aria-hidden="true" ><i class="fa fa-2x fa-times-circle-o" aria-hidden="true"></i></span>

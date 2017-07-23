@@ -1,57 +1,51 @@
 
 <?php
 
-if (isset($_GET['taskName']) && isset($_GET['cat_id'])) {
-  $safeTask = htmlentities($_GET['taskName']);
-  $safeId = htmlentities($_GET['cat_id']);
+if (isset($_POST['taskName']) && isset($_POST['cat_id'])) {
+  $safeTask = htmlentities($_POST['taskName']);
+  $safeId = htmlentities($_POST['cat_id']);
   addTask(getDb(), $safeTask, $safeId);
 }
 
-if (isset($_GET['editWinTask']) && isset($_GET['editWinId']) && isset($_GET['editWinStartDate']) 
-  && isset($_GET['editWinStartTime']) //&& isset($_GET['editWinEndDate']) && isset($_GET['editWinEndTime']) 
-  && isset($_GET['editWinComments']) && isset($_GET['editWinCatId'])) {
+if (isset($_POST['editWinTask']) && isset($_POST['editWinId']) && isset($_POST['editWinStartDate']) 
+  && isset($_POST['editWinStartTime']) //&& isset($_POST['editWinEndDate']) && isset($_POST['editWinEndTime']) 
+  && isset($_POST['editWinComments']) && isset($_POST['editWinCatId'])) {
   
 
 
-  $safeTask = htmlentities($_GET['editWinTask']);
-  $safeId = htmlentities($_GET['editWinId']);
-  $safeCatId = htmlentities($_GET['editWinCatId']);
-  $safeStartDate = htmlentities($_GET['editWinStartDate']);
-  $safeStartTime = htmlentities($_GET['editWinStartTime']);
-  $safeEndDate = htmlentities($_GET['editWinEndDate']);
-  $safeEndTime = htmlentities($_GET['editWinEndTime']);
+  $safeTask = htmlentities($_POST['editWinTask']);
+  $safeId = htmlentities($_POST['editWinId']);
+  $safeCatId = htmlentities($_POST['editWinCatId']);
+  $safeStartDate = htmlentities($_POST['editWinStartDate']);
+  $safeStartTime = htmlentities($_POST['editWinStartTime']);
+  $safeEndDate = htmlentities($_POST['editWinEndDate']);
+  $safeEndTime = htmlentities($_POST['editWinEndTime']);
   if ($safeEndDate == '' || $safeEndTime == '') {
     $endTime = null;
   } else {
     $endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
 
   };
-  $safeComments = htmlentities($_GET['editWinComments']);
+  $safeComments = htmlentities($_POST['editWinComments']);
   if ($safeComments == '') {
     $safeComments = null;
   };
-  var_dump("Comments: " . $safeComments);
   $startTime = date('Y-m-d H:i:s',strtotime($safeStartDate . $safeStartTime));
   
- //  if ($_GET['editWinEndDate'] == 'false' && $_GET['editWinEndTime'] == 'false') {
- //   $endTime = 'Null';
- //  } else {
- //     $endTime = date('Y-m-d H:i:s',strtotime($safeEndDate . $safeEndTime));
-  // };
   
   editExistingTask(getDb(), $safeTask, $safeId, $safeCatId, $startTime, $endTime, $safeComments); 
 }    
-if (isset($_GET['newCategory'])) {
-  $safeCategory = htmlentities($_GET['newCategory']);
+if (isset($_POST['newCategory'])) {
+  $safeCategory = htmlentities($_POST['newCategory']);
   addCategory(getDb(), $safeCategory);
 }
 
-if (isset($_GET['removeTask'])) {
-  $safeTask = htmlentities($_GET['removeTask']);
+if (isset($_POST['removeTask'])) {
+  $safeTask = htmlentities($_POST['removeTask']);
   removeTask(getDb(), $safeTask);
 }
-if (isset($_GET['completeTask'])) {
-  $safeTask = htmlentities($_GET['completeTask']);
+if (isset($_POST['completeTask'])) {
+  $safeTask = htmlentities($_POST['completeTask']);
   completeTask(getDb(), $safeTask);
 }
 
@@ -87,20 +81,18 @@ function completeTask($db, $id) {
 }
 
 function editExistingTask($db, $task, $id, $cat_id, $start, $end, $comments) { 
-var_dump("END: ". $end);
   if ($end == ''){
     $stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', comment = \''.$comments.'\' WHERE task_id=' .$id;
   } else {
     $stmt = 'UPDATE taskList SET task = \''.$task.'\', cat_id = \''.$cat_id.'\', time_start = \''.$start.'\', time_end = \''.$end.'\', comment = \''.$comments.'\' WHERE task_id=' .$id; //
   };
-  var_dump($stmt);
   $result = pg_query($stmt);
 }
 
 function getActiveTasks($db) {
   $request = pg_query(getDb(), "SELECT * from taskList 
   JOIN category ON taskList.cat_id=category.id
-  ORDER BY taskList.time_end DESC, taskList.time_start;");
+  ORDER BY taskList.time_end DESC, taskList.time_start DESC;");
   return pg_fetch_all($request);
 }
 

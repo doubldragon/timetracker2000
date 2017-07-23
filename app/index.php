@@ -14,7 +14,7 @@
 
     <!-- Choose a category to begin tracking -->
 
-    <form class="form-inline mx-auto" method="get" action="">
+    <form class="form-inline mx-auto" method="post" action="">
 
       <label class="sr-only" for="task">Select Task</label>
       <div class="input-group input-group-lg mx-auto">
@@ -36,7 +36,7 @@
 
     <!-- Add new tasks to the dropdown -->
 
-    <form class="form-inline mx-auto" method="get" action="">
+    <form class="form-inline mx-auto" method="post" action="">
 
       <label class="sr-only" for="task">Add New Category</label>
       <div class="input-group mx-auto">
@@ -52,27 +52,7 @@
     </div>
 
 
-    <!-- Active Tasks Being Tracked -->
     <?php include 'cardResults.php'; ?>
-    <table class='table'> 
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Project Task</th>
-          <th>Start</th>
-          <th>Stop</th>
-          <th class='buttons'></th>
-        </tr>
-      </thead>
-
-      <tbody>
-      <!-- <php include 'activeTasks.php'; ?> -->
-
-      <!-- Populate table with completed tasks -->
-      <?php include 'completedTasks.php'; ?>
-
-      </tbody>
-    </table>
 
       
 
